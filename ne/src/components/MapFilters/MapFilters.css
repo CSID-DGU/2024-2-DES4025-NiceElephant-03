@@ -1,0 +1,30 @@
+/* src/components/MapFilters.css */
+.map-filters {
+  display: flex;
+  justify-content: center;
+  margin-right: 60px;
+  margin-top:30px;
+  margin-left:50px;
+  gap: 60px;
+}
+
+.filter-dropdown {
+  padding: 8px 16px;
+  padding-left:8px;
+  font-size: 1rem;
+  border: 1px solid #588157;
+  border-radius: 2px;
+  outline: none;
+  cursor: pointer;
+  transition: border-color 0.3s, box-shadow 0.3s;
+  width: 270px;
+  color: #999; /* 기본값일 때 글씨 색상은 회색 */
+}
+
+.filter-dropdown.selected {
+  color: #000; /* 선택되었을 때 글씨 색상은 검정 */
+}
+
+.filter-dropdown option {
+  color: #000; /* 옵션 색상은 검정 */
+}

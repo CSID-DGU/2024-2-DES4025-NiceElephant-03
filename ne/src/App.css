@@ -1,0 +1,26 @@
+/* src/App.css */
+.app {
+  font-family: Arial, sans-serif;
+  text-align: center;
+  margin: 0 auto;
+  background-color: #f9f9f9;
+}
+
+.app-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #fff;
+  border-bottom: 1px solid #eaeaea;
+}
+
+.logo {
+  height: 10px;
+  margin-right: 15px;
+}
+
+.app-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #333;
+}
