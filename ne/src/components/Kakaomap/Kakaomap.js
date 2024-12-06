@@ -11,6 +11,7 @@ const Map = ({ specificLocations, selectedLocation }) => {
     };
 
     const map = new kakao.maps.Map(container, options);
+    const geocoder = new kakao.maps.services.Geocoder();
 
     // 모든 마커 추가
     specificLocations.forEach((location) => {
@@ -36,12 +37,59 @@ const Map = ({ specificLocations, selectedLocation }) => {
         image: markerImage,
       });
 
-      const infowindow = new kakao.maps.InfoWindow({
-        content: `<div style="padding:5px;">${location.name}</div>`,
-      });
-
+      // 마커 클릭 이벤트
       kakao.maps.event.addListener(marker, "click", () => {
-        infowindow.open(map, marker);
+        // 좌표를 주소로 변환
+        geocoder.coord2Address(
+          location.longitude,
+          location.latitude,
+          (result, status) => {
+            if (status === kakao.maps.services.Status.OK) {
+              const address =
+                result[0]?.address?.address_name || "주소 정보 없음";
+
+              // InfoWindow 내용 구성
+              const content = `
+                <div class="info-window-content">
+                  <strong>${location.name}</strong><br/>
+                  ${address}
+                </div>`;
+
+              const infowindow = new kakao.maps.InfoWindow({
+                content: content,
+                removable: true,
+              });
+
+              // InfoWindow를 맵에 표시
+              infowindow.open(map, marker);
+
+              // InfoWindow 표시 후 글자 크기 조정
+              const infoWindowContent = document.querySelector(
+                ".info-window-content"
+              );
+
+              // InfoWindow의 콘텐츠가 로드된 후 크기 조정
+              const adjustFontSize = () => {
+                if (infoWindowContent) {
+                  let fontSize = 16; // 기본 글씨 크기
+                  const maxWidth = 200; // 최대 너비 제한
+                  const contentWidth = infoWindowContent.offsetWidth;
+
+                  // 텍스트 길이에 비례하여 글자 크기 조정
+                  if (contentWidth > maxWidth) {
+                    fontSize = (maxWidth / contentWidth) * fontSize; // 너비에 비례한 크기 조정
+                  }
+
+                  infoWindowContent.style.fontSize = `${fontSize}px`;
+                }
+              };
+
+              adjustFontSize(); // 글씨 크기 조정 함수 호출
+            } else {
+              console.error("Geocoder 실패: ", status);
+            }
+          }
+        );
       });
     });
 
@@ -52,7 +100,7 @@ const Map = ({ specificLocations, selectedLocation }) => {
         selectedLocation.longitude
       );
       map.setCenter(newCenter); // 중심 이동
-      map.setLevel(1); // 확대 레벨
+      map.setLevel(5); // 확대 레벨
     }
   }, [specificLocations, selectedLocation]); // selectedLocation 변경 시 실행
 
