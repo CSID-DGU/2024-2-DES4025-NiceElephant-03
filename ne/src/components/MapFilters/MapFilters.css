@@ -3,14 +3,14 @@
   display: flex;
   justify-content: center;
   margin-right: 60px;
-  margin-top:30px;
-  margin-left:50px;
+  margin-top: 30px;
+  margin-left: 50px;
   gap: 60px;
 }
 
 .filter-dropdown {
   padding: 8px 16px;
-  padding-left:8px;
+  padding-left: 8px;
   font-size: 1rem;
   border: 1px solid #588157;
   border-radius: 2px;
